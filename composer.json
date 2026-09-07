@@ -1,0 +1,9 @@
+{
+    "name": "sullivan/p3-blog",
+    "description": "Application de gestion de blog en CLI",
+    "type": "project",
+    "minimum-stability": "stable",
+    "require": {
+        "vlucas/phpdotenv": "^5.7"
+    }
+}

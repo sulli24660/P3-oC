@@ -23,16 +23,16 @@ class ContactManager
         return $statement->fetch() ?: null;
     }
 
-    public function addBillet(string $name, string $email): void
+    public function addBillet(string $name, string $content): void
     {
-        $statement = $this->pdo->prepare('INSERT INTO billets (name, email) VALUES (:name, :email)');
-        $statement->execute(['name' => $name, 'email' => $email]);
+        $statement = $this->pdo->prepare('INSERT INTO billets (name, contenu) VALUES (:name, :contenu)');
+        $statement->execute(['name' => $name, 'contenu' => $content]);
     }
 
-    public function updateBillet(int $id, string $name, string $email): void
+    public function updateBillet(int $id, string $name, string $content): void
     {
-        $statement = $this->pdo->prepare('UPDATE billets SET name = :name, email = :email WHERE id = :id');
-        $statement->execute(['id' => $id, 'name' => $name, 'email' => $email]);
+        $statement = $this->pdo->prepare('UPDATE billets SET name = :name, contenu = :contenu WHERE id = :id');
+        $statement->execute(['id' => $id, 'name' => $name, 'contenu' => $content]);
     }
 
     public function deleteBillet(int $id): void

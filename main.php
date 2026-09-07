@@ -1,6 +1,10 @@
 <?php
 
-require_once 'database.php';
+require_once __DIR__ . '/vendor/autoload.php';
+require_once 'dbconnect.php';
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
 
 while (true) 
 {
@@ -23,10 +27,13 @@ while (true)
     {
         echo "Tentative de connexion à la base de données...\n";
         try {
-            $pdo = connectToDB();
+            // Création d'une instance de DBConnect et récupération de l'objet PDO
+            $pdo = (new DBConnect())->getPDO(); 
+            
             echo " Connexion réussie à la base de données !\n";
-        } catch (Exception $error) {
-            echo " Échec de la connexion : " . $error->getMessage() . "\n";
+        } catch (Exception $error) { 
+            // Bloc de gestion d'erreur de connexion à la base de données
+            echo " Échec de la connexion :" . $error->getMessage() . "\n";
         }
     } 
     else 
