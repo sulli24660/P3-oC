@@ -1,6 +1,7 @@
 <?php
 
-require_once 'DBConnect.php';
+require_once 'dbconnect.php';
+
 class ContactManager
 {
     private PDO $pdo;
@@ -10,36 +11,13 @@ class ContactManager
         $this->pdo = $pdo;
     }
 
-    public function getAllbillets(): array
+    public function findAll(): array
     {
-        $statement = $this->pdo->query('SELECT * FROM billets');
+        $statement = $this->pdo->query('SELECT * FROM contacts');
         return $statement->fetchAll();
-    }
-
-    public function getBilletsById(int $id): ?array
-    {
-        $statement = $this->pdo->prepare('SELECT * FROM billets WHERE id = :id');
-        $statement->execute(['id' => $id]);
-        return $statement->fetch() ?: null;
-    }
-
-    public function addBillet(string $name, string $content): void
-    {
-        $statement = $this->pdo->prepare('INSERT INTO billets (name, contenu) VALUES (:name, :contenu)');
-        $statement->execute(['name' => $name, 'contenu' => $content]);
-    }
-
-    public function updateBillet(int $id, string $name, string $content): void
-    {
-        $statement = $this->pdo->prepare('UPDATE billets SET name = :name, contenu = :contenu WHERE id = :id');
-        $statement->execute(['id' => $id, 'name' => $name, 'contenu' => $content]);
-    }
-
-    public function deleteBillet(int $id): void
-    {
-        $statement = $this->pdo->prepare('DELETE FROM billets WHERE id = :id');
-        $statement->execute(['id' => $id]);
     }
 }
 
-var_dump(new ContactManager((new DBConnect())->getPDO()));
+// Test immédiat de la méthode
+$manager = new ContactManager((new DBConnect())->getPDO());
+var_dump($manager->findAll());
