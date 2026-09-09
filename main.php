@@ -8,8 +8,9 @@ function afficherMenu(): void
     echo "Voici la liste des commandes disponibles :\n";
     echo "- list    : Affiche la liste des commandes\n";
     echo "- connect : Teste la connexion à la base de données\n";
-    echo "- exit    : Quitte le programme\n";
     echo "- display : Affiche tous les contacts de la base de données\n";
+    echo "- exit    : Quitte le programme\n";
+    
 }
 
 afficherMenu();
@@ -24,18 +25,20 @@ while (true)
         break;
     }
 
-    if ($line === "list") 
+    elseif ($line === "list") 
     {
         afficherMenu();
     } 
-        if ($line === "display")
+    elseif ($line === "display")
             {
             echo "Voici la liste des contacts :\n";
             $pdo = (new DBConnect())->getPDO();
             $manager = new ContactManager($pdo);
             $contacts = $manager->findAll();
-            foreach ($contacts as $contact) 
-                 echo "- " . $contact['id'] . " - " . $contact['name'] . " - " . $contact['email'] . " - " . $contact['phone_number'] . "\n";
+        foreach ($contacts as $contact)
+            {    
+            echo $contact->__toString() . "\n";
+            }
             }
 
     elseif ($line === "connect") 

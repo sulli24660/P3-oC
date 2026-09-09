@@ -14,23 +14,8 @@ class Contact
         $this->phone_number = $phone_number;
     }
 
-    public function getId(): ?int
+public function __toString(): string
     {
-        return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function getPhoneNumber(): ?string
-    {
-        return $this->phone_number;
+        return "- {$this->id} - {$this->name} - {$this->email} - {$this->phone_number}";
     }
 }

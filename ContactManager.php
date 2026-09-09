@@ -14,7 +14,15 @@ class ContactManager
 
     public function findAll(): array
     {
-        $statement = $this->pdo->query('SELECT * FROM contacts');
-        return $statement->fetchAll();
+        $statement = $this->pdo->query('SELECT id, name, email, phone_number FROM contacts');
+        // Utilisation de PDO::FETCH_FUNC pour créer des instances de Contact directement à partir des résultats de la requête
+        return $statement->fetchAll(PDO::FETCH_FUNC, function($id, $name, $email, $phoneNumber) {
+            return new Contact(
+                $id ? (int)$id : null,
+                $name,
+                $email,
+                $phoneNumber
+            );
+        });
     }
 }
