@@ -18,7 +18,3 @@ class ContactManager
         return $statement->fetchAll();
     }
 }
-
-// Test immédiat de la méthode
-$manager = new ContactManager((new DBConnect())->getPDO());
-var_dump($manager->findAll());
