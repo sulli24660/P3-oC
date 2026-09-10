@@ -1,57 +1,49 @@
 <?php
 
-require_once 'dbconnect.php';
+require_once 'dbconnect.php'; 
 require_once 'ContactManager.php';
+require_once 'Functions.php'; 
 
-function afficherMenu(): void
-{
-    echo "Voici la liste des commandes disponibles :\n";
-    echo "- list    : Affiche la liste des commandes\n";
-    echo "- connect : Teste la connexion à la base de données\n";
-    echo "- display : Affiche tous les contacts de la base de données\n";
-    echo "- exit    : Quitte le programme\n";
-    
-}
 
-afficherMenu();
+Functions::afficherMenu(); //J'appelle la méthode afficherMenu() de la classe Functions pour afficher le menu des commandes disponibles
 
 while (true) 
 {
-    $line = trim(readline("\nEntrez votre commande : "));
+    $line = trim(readline("\nEntrez votre commande : ")); 
 
     if ($line === "exit") 
     {
         echo "Au revoir !\n";
-        break;
+        break; 
     }
 
     elseif ($line === "list") 
     {
-        afficherMenu();
+        Functions::afficherMenu(); 
     } 
     elseif ($line === "display")
-            {
-            echo "Voici la liste des contacts :\n";
-            $pdo = (new DBConnect())->getPDO();
-            $manager = new ContactManager($pdo);
-            $contacts = $manager->findAll();
+    {
+        echo "Voici la liste des contacts :\n";
+        $pdo = (new DBConnect())->getPDO(); //J'instancie la classe DBConnect pour établir une connexion à la base de données et récupérer l'objet PDO
+        $manager = new ContactManager($pdo); //J'instancie la classe ContactManager en lui passant l'objet PDO pour pouvoir gérer les contacts dans la base de données
+        $contacts = $manager->findAll(); //J'appelle la méthode findAll() de la classe ContactManager pour récupérer tous les contacts de la base de données et les stocker dans un tableau
         foreach ($contacts as $contact)
-            {    
-            echo $contact->__toString() . "\n";
-            }
-            }
+        {    
+            echo $contact->__toString() . "\n"; //J'appelle la méthode __toString() de la classe Contact pour afficher les informations de chaque contact dans le tableau
+        }
+    }
 
     elseif ($line === "connect") 
     {
         echo "Tentative de connexion à la base de données...\n";
         try 
         {
-            $pdo = (new DBConnect())->getPDO(); 
+            $pdo = (new DBConnect())->getPDO(); //J'instancie la classe DBConnect pour établir une connexion à la base de données et récupérer l'objet PDO
             echo "Connexion réussie à la base de données !\n";
         } 
-        catch (Exception $error) 
+        catch (Exception $error) //J'attrape l'exception si la connexion échoue et j'affiche un message d'erreur
         { 
-            echo "Échec de la connexion : " . $error->getMessage() . "\n";
+            echo "Échec de la connexion : " . $error->getMessage() . "\n"; 
         }
     } 
     else 
