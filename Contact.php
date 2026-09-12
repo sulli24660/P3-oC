@@ -43,7 +43,11 @@ class Contact
         $this->phoneNumber = $phoneNumber;
     }  
     public function __toString(): string
-    {
-        return "- {$this->id} - {$this->name} - {$this->email} - {$this->phoneNumber}";
-    }
+{
+    return sprintf("- %0d - %s - %s - %s",
+    $this->id,
+    $this->name,
+    $this->email,
+    $this->phoneNumber);
+}
 }
