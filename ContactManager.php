@@ -1,6 +1,6 @@
 <?php
 
-require_once 'dbconnect.php';
+require_once 'DBconnect.php';
 require_once 'Contact.php';
 
 class ContactManager
@@ -25,5 +25,23 @@ class ContactManager
                 $phoneNumber,
             );
         });
+    }
+    public function findById(int $id) : ?Contact     
+    {
+        $statement = $this->pdo->prepare('SELECT id, name, email, phone_number FROM contacts WHERE id = ?');
+        $statement->execute([$id]);
+        $ligne = $statement->fetch(PDO::FETCH_ASSOC); 
+            if ($ligne === false)
+                {
+                return null;
+                }
+            else
+                {
+                    return new Contact(
+                        (int) $ligne['id'],
+                        $ligne['name'],
+                        $ligne['email'],
+                        $ligne['phone_number']);
+                }
     }
 }

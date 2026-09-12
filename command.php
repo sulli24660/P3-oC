@@ -1,9 +1,16 @@
 <?php
-
+require_once 'DBconnect.php';
+require_once 'ContactManager.php';
+require_once 'functions.php';
 class Command
 {
     public function execute(string $line): bool
     {
+        if (str_starts_with($line, 'detail'))
+    {
+        return $this->detail($line);
+    }
+
         return match ($line)
         {
             'exit' => $this->quit(),
@@ -63,14 +70,30 @@ class Command
         return true;
     }
 
-    private function detail(string $line) 
+    private function detail(string $line): bool
     {
         $resultat = preg_match('/^detail (\d+)$/', $line, $matches);
             if ($resultat === 1)
-            $resultConverts = (int) $matches[1];
-            
-
-
+                {
+                $resultConverts = (int) $matches[1];
+                        $pdo = (new DBConnect())->getPDO();
+                        $manager = new ContactManager($pdo); 
+                        $match = $manager->findById($resultConverts); 
+                        if ($match === null)
+                            {
+                                echo "Aucun contact trouvé sur cet identifiant $resultConverts \n";
+                            }
+                        else 
+                            {
+                                echo $match->__toString() . "\n";
+                            }
+                return true;
+                }
+            else 
+                {
+            echo "Format invalide. Utilisation attendue : detail <id>\n";
+                return true;
+                }
 
 
             }
