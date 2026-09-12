@@ -1,5 +1,6 @@
 <?php
 
+require_once 'dbconnect.php';
 require_once 'Contact.php';
 
 class ContactManager
