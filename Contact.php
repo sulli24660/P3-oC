@@ -17,7 +17,7 @@ class Contact
     {
         return $this->id;
     }
-
+    // Ici pas besoin de setter car l'ID est autogénéré par SQL
     public function getName(): ?string
     {
         return $this->name;

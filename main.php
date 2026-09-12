@@ -1,8 +1,8 @@
 <?php
 
-require_once 'dbconnect.php'; 
-require_once 'ContactManager.php';
-require_once 'Functions.php'; 
+require_once 'dbconnect.php'; //J'appelle le fichier dbconnect.php pour pouvoir utiliser la classe DBConnect et établir une connexion à la base de données
+require_once 'ContactManager.php'; //J'appelle le fichier ContactManager.php pour pouvoir utiliser la classe ContactManager et gérer les contacts dans la base de données
+require_once 'Functions.php'; //J'appelle le fichier Functions.php pour pouvoir utiliser la classe Functions et afficher le menu des commandes disponibles
 
 
 Functions::afficherMenu(); //J'appelle la méthode afficherMenu() de la classe Functions pour afficher le menu des commandes disponibles
@@ -41,7 +41,7 @@ while (true)
             $pdo = (new DBConnect())->getPDO(); //J'instancie la classe DBConnect pour établir une connexion à la base de données et récupérer l'objet PDO
             echo "Connexion réussie à la base de données !\n";
         } 
-        catch (Exception $error) //J'attrape l'exception si la connexion échoue et j'affiche un message d'erreur
+        catch (Exception $error) 
         { 
             echo "Échec de la connexion : " . $error->getMessage() . "\n"; 
         }

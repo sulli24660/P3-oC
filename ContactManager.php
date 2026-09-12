@@ -22,7 +22,7 @@ class ContactManager
                 $id ? (int)$id : null,
                 $name,
                 $email,
-                $phoneNumber
+                $phoneNumber,
             );
         });
     }
