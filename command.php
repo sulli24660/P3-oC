@@ -17,12 +17,19 @@ class Command
         {   
             return $this->delete($line);
         }
+        elseif 
+        (str_starts_with($line, 'modify'))
+        { 
+        
+            return $this->modify($line); 
+        }
         return match ($line)
         {
             'exit' => $this->quit(),
             'list' => $this->showMenu(),
             'display' => $this->display(),
             'connect' => $this->connect(),
+            'help' => $this->showMenu(),
             default => $this->unknownCommand($line),
         };
     }
@@ -154,6 +161,45 @@ class Command
             else 
                 {
             echo "Format invalide. Utilisation attendue : delete <id>\n";
+                return true;
+                }
+            }
+        private function modify(string $line): bool
+    {
+        $resultat = preg_match('/^modify (\d+),([^,]+),([^,]+),([^,]+)$/', $line, $matches);
+            if ($resultat === 1)
+                {
+                $id = (int)trim($matches[1]);  
+                $name = (string)trim($matches[2]);
+                $email = (string)trim($matches[3]);
+                    if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+                    {
+                    echo "L'adresse mail saisie n'est pas valide\n"; 
+                    return true;
+                    }
+                $phoneNumber = (string)trim($matches[4]);
+                $phoneNumberClean = (string)str_replace(' ', '', $phoneNumber);
+                    if (!preg_match('/^\d{10}$/', $phoneNumberClean))
+                    {
+                    echo "Le numéro de téléphone saisi ne contient pas 10 chiffres\n"; 
+                            return true;
+                    }
+                    $pdo = (new DBConnect())->getPDO();
+                    $manager = new ContactManager($pdo); 
+                    $modified = $manager->modify($id, $name, $email, $phoneNumberClean);
+                        if ($modified === false)
+                            {
+                                echo "Aucunes modifications apportées \n";
+                            }
+                        else 
+                            {
+                                echo "voici les modifications apportées : $name, $email, $phoneNumberClean, $id \n";
+                            }
+                return true;
+                }
+            else 
+                {
+            echo "Format invalide. Les informations saisies ne permettent pas de modifier le contact \n";
                 return true;
                 }
             }

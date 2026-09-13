@@ -44,15 +44,22 @@ class ContactManager
                         $ligne['phone_number']);
                 }
     }
-        public function create(string $name, string $email, string $phoneNumber) : void  
+    public function create(string $name, string $email, string $phoneNumber) : void  
     {
         $statement = $this->pdo->prepare('INSERT INTO contacts (name, email, phone_number) VALUES (?, ?, ?)');
         $statement->execute([$name,$email,$phoneNumber]);
     }
-        public function delete(int $id): bool
+    public function delete(int $id): bool
         {
         $statement = $this->pdo->prepare('DELETE FROM contacts WHERE id = ?');
         $statement->execute([$id]);
         return $statement->rowCount() > 0;
         }
-}               
+
+    public function modify(int $id, string $name, string $email, string $phoneNumber): bool
+        {
+        $statement = $this->pdo->prepare('UPDATE contacts SET name = ?, email = ?, phone_number = ? WHERE id = ? ');
+        $statement->execute([$name, $email, $phoneNumber, $id]);
+        return $statement->rowCount() > 0;
+        }
+}
