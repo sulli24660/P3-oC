@@ -10,6 +10,9 @@ class Command
     {
         return $this->detail($line);
     }
+        elseif (str_starts_with($line,'create'))
+    {   return $this->create($line);
+    }
 
         return match ($line)
         {
@@ -94,9 +97,37 @@ class Command
             echo "Format invalide. Utilisation attendue : detail <id>\n";
                 return true;
                 }
-
-
             }
+    private function create(string $line): bool
+        {   
+        $resultat = preg_match('/^create ([^,]+),([^,]+),([^,]+)$/', $line, $matches);
+            if ($resultat === 1)
+                {
+                        $name = trim($matches[1]);
+                        $email = trim($matches[2]);
+                            if (!filter_var($email, FILTER_VALIDATE_EMAIL))
+                            {
+                            echo "L'adresse mail saisie n'est pas valide\n"; 
+                            return true;
+                            }
+                        $phoneNumber = trim($matches[3]);
+                        $phoneNumberClean = str_replace(' ', '', $phoneNumber);
+                        if (!preg_match('/^\d{10}$/', $phoneNumberClean))
+                        {
+                            echo "Le numéro de téléphone saisi ne contient pas 10 chiffres\n"; 
+                            return true;
+                        }
 
+                        $pdo = (new DBConnect())->getPDO();
+                        $manager = new ContactManager($pdo); 
+                        $manager->create($name, $email, $phoneNumberClean);
+                        echo "\n Nouveau contact ajouté : $name,$email,$phoneNumberClean\n";
+                        return true;
+                }
+                else
+                {    echo "Format invalide. Merci de ressaisir convenablement le contact (nom, email, numéro de téléphone) \n";
+                       return true;
+                }
+         }
 }
 

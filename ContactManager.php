@@ -44,4 +44,9 @@ class ContactManager
                         $ligne['phone_number']);
                 }
     }
+        public function create(string $name, string $email, string $phoneNumber) : void  
+    {
+        $statement = $this->pdo->prepare('INSERT INTO contacts (name, email, phone_number) VALUES (?, ?, ?)');
+        $statement->execute([$name,$email,$phoneNumber]);
+    }
 }
