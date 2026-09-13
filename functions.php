@@ -11,6 +11,7 @@ class Functions
         echo "- exit    : Quitte le programme\n";
         echo "- detail <id> : Affiche les coordonnées du contact n°<id> (un Numéro est saisi à la place de <id>)\n";
         echo "- create + \"nom\" \"email\" et \"numéro de téléphone\" : Créer un nouveau contact\n";
+        echo "- delete + \"ID\" : Supprime le contact présent sur cet ID \n";
     
     }
 }

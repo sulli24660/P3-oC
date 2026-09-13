@@ -13,7 +13,10 @@ class Command
         elseif (str_starts_with($line,'create'))
     {   return $this->create($line);
     }
-
+        elseif (str_starts_with($line,'delete'))
+        {   
+            return $this->delete($line);
+        }
         return match ($line)
         {
             'exit' => $this->quit(),
@@ -129,5 +132,30 @@ class Command
                        return true;
                 }
          }
+    private function delete(string $line): bool
+    {
+        $resultat = preg_match('/^delete (\d+)$/', $line, $matches);
+            if ($resultat === 1)
+                {
+                $resultConverts = (int) $matches[1];
+                        $pdo = (new DBConnect())->getPDO();
+                        $manager = new ContactManager($pdo); 
+                        $deleted = $manager->delete($resultConverts); 
+                        if ($deleted === false)
+                            {
+                                echo "Aucun contact trouvé sur cet identifiant $resultConverts \n";
+                            }
+                        else 
+                            {
+                                echo "L'ID supprimé est le $resultConverts\n";
+                            }
+                return true;
+                }
+            else 
+                {
+            echo "Format invalide. Utilisation attendue : delete <id>\n";
+                return true;
+                }
+            }
 }
 

@@ -49,4 +49,10 @@ class ContactManager
         $statement = $this->pdo->prepare('INSERT INTO contacts (name, email, phone_number) VALUES (?, ?, ?)');
         $statement->execute([$name,$email,$phoneNumber]);
     }
-}
+        public function delete(int $id): bool
+        {
+        $statement = $this->pdo->prepare('DELETE FROM contacts WHERE id = ?');
+        $statement->execute([$id]);
+        return $statement->rowCount() > 0;
+        }
+}               
