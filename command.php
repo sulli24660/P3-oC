@@ -55,7 +55,7 @@ class Command
 
         foreach ($contacts as $contact)
         {
-            echo $contact->__toString() . "\n"; //J'affiche les informations de chaque contact
+            echo $contact . "\n"; //J'affiche les informations de chaque contact
         }
 
         return true;
@@ -98,7 +98,7 @@ class Command
                             }
                         else 
                             {
-                                echo $match->__toString() . "\n";
+                                echo $match . "\n";
                             }
                 return true;
                 }
