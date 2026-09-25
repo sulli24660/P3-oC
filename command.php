@@ -98,7 +98,7 @@ class Command
                             }
                         else 
                             {
-                                echo $match . "\n";
+                                echo $match->__toString() . "\n";
                             }
                 return true;
                 }
